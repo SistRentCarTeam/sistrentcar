@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="sist.com.bean.apple">
+
+ 
+ 
+	<select id="memberIdCheck" parameterType="java.lang.String" resultType="java.lang.String"> <!--중복체크  -->
+	SELECT MEMPW  FROM MEMBER
+	WHERE MEMID = #{memid}
+	</select>
+
+    <select id="selectZipCode" parameterType="java.lang.String" resultType="model.ZipBean"> <!-- 회원가입시 우편번호 -->
+    SELECT ZIPCODE,SIDO,GUGUN,DONG,NVL(BUNJI,' ')BUNJI
+    FROM ZIPCODE
+    WHERE DONG LIKE '%'||#{value}||'%'
+    
+    </select>
+    
+ 
+   <insert id="insertMember" parameterType="model.MemberBean"> <!--회원 추가 쿼리 -->
+ 
+		INSERT INTO MEMBER
+		VALUES(memno_seq.nextval,#{memid},#{mempw},#{mname},#{madress},#{memtel},#{memail},#{mbirth},#{mlevel})
+
+	</insert>
+ 
+   
+    
+ <select id="logincheck" parameterType="String" resultType="String"> <!--로그인 -->
+		SELECT mempw FROM MEMBER
+		WHERE memid=#{VLAUE}
+
+	</select>
+
+<select id="memberInfo" parameterType="String" resultType="model.MemberBean">
+	SELECT MEMID, MEMPW, MNAME, MADRESS ,MEMTEL ,MEMAIL, MBIRTH
+	FROM MEMBER
+	WHERE memid=#{VLAUE}
+
+
+</select>
+ 
+
+<select id="selectMember" resultType="model.MemberBean" parameterType="java.util.HashMap">
+	 SELECT MEMNO,MEMID,MEMPW,MNAME,MADRESS,MEMTEL,MEMAIL,MBIRTH,MLEVEL
+	 FROM MEMBER  
+	</select>
+
+<select id="fineNo" parameterType="String" resultType="model.MemberBean">
+	SELECT MEMNO
+	FROM MEMBER
+	WHERE MEMID=#{VLAUE}
+</select>
+
+<select id="findlevel" parameterType="String" resultType="model.MemberBean">
+	SELECT MLEVEL
+	FROM MEMBER
+	WHERE MEMID=#{VLAUE}
+</select>
+
+
+ <select id="myPage_reserve" resultType="model.RentListBean" 	parameterType="Integer">
+select RENTNO,	RENTDATE	,RETURNDATE	,CARNO,	MEMBERNO,	PSGNUM	,OFCNO,	RPRICE	
+ from rentlist WHERE MEMBERNO = #{VLAUE}
+ </select>
+ 
+
+<select id="myQnAselect" resultType="model.QnaBean"  parameterType="Integer">
+	SELECT qtitle,qcontents,qanswer,qstate 
+	FROM qna
+	WHERE writer=#{VLAUE}
+</select>
+ 
+ 
+ <delete id="deleteMemberList" parameterType="int">
+ delete member
+where memno=#{memno}
+
+ </delete>
+ 
+	<insert id="insertTest" parameterType="model.FuelBean">
+		INSERT INTO FUEL(FUELNO,FUELNAME)
+		VALUES(#{fuelno},#{fuelname})
+	</insert>
+
+            
+	<select id="selectRentCar" resultType="model.SelectCarList">
+		SELECT RENTCAR.RCNO,RENTCAR.RCMODEL,RENTCAR.RCPRICE,RENTCAR.RCIMG,RENTCAR.RCSTATE,OFFICE.OFCNAME,NAVIGATION.NAVINAME,FUEL.FUELNAME,SEGMENT.SGMTNAME,MAKER.MNAME
+		FROM RENTCAR, OFFICE, NAVIGATION, SEGMENT, FUEL, MAKER
+		WHERE RENTCAR.OFCNO = OFFICE.OFCNO AND SEGMENT.SGMTNO = RENTCAR.SGMTNO AND RENTCAR.MAKERNO = MAKER.MAKERNO AND FUEL.FUELNO = RENTCAR.FUELNO AND RENTCAR.NAVINO = NAVIGATION.NAVINO
+		
+		
+	</select>
+ 
+	
+	
+</mapper>
+ 

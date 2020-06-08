@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="sist.com.bean.apple">
+	<select id="selectRentCar"
+		resultType="sist.com.dto.SelectCarListBean" parameterType="HashMap">
+		select * from(SELECT
+		RENTCAR.RCNO,RENTCAR.RCMODEL,RENTCAR.RCPRICE,RENTCAR.RCIMG,RENTCAR.RCSTATE,OFFICE.OFCNAME,NAVIGATION.NAVINAME,FUEL.FUELNAME,SEGMENT.SGMTNAME,MAKER.MNAME
+		FROM RENTCAR, OFFICE, NAVIGATION, SEGMENT, FUEL, MAKER
+		WHERE
+		RENTCAR.OFCNO = OFFICE.OFCNO AND SEGMENT.SGMTNO = RENTCAR.SGMTNO AND
+		RENTCAR.MAKERNO = MAKER.MAKERNO AND FUEL.FUELNO = RENTCAR.FUELNO AND
+		RENTCAR.NAVINO = NAVIGATION.NAVINO)
+		<trim prefix="WHERE" prefixOverrides="AND " suffixOverrides="AND">
+			<if test="place!='모든지점' and place != null ">
+				OFCNAME=#{place}
+			</if>
+
+			<if test="car!='모든차종' and car !=null">
+				AND SGMTNAME=#{car}
+			</if>
+			AND RCSTATE='예약가능'
+		</trim>
+	</select>
+
+	<update id="updateState" parameterType="java.lang.Integer">
+		UPDATE RENTCAR SET
+		RCSTATE='승인대기'
+		WHERE RCNO=#{VALUE}
+	</update>
+	
+	<!-- <insert id="insertRentList" parameterType="sist.com.dto.RentListBean">
+		INSERT INTO RENTLIST
+		VALUES(RENTLIST_SEQ_NO.NEXTVAL,#{rentdate},#{returndate},#{carno},#{memberno},#{psgnum},#{ofcno},#{rprice})
+	</insert> ttt -->
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+

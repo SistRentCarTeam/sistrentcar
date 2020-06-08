@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration
+PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration><!-- DB설정(Connection) -->   
+    <typeAliases> 
+       <!--ex) <typeAlias type="sist.com.dto.DeptBean" alias="dept"/>  -->   
+    </typeAliases> 
+    <mappers>
+      <mapper resource="sist/com/dao/basic-mapper.xml"/>
+    </mappers>
+</configuration>
+
+
+
+
+
+

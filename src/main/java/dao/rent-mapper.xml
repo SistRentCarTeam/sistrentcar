@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="bean.rent">
+	<!-- Admin office 쿼리 -->
+	<select id="selectOffice" resultType="model.OfficeBean">
+		SELECT OFCNO,OFCNAME,MGRNAME,MEMNO,OFCTEL,OFCADDR
+		FROM OFFICE
+		ORDER BY OFCNO
+	</select>
+	
+	<!-- 공지사항  -->
+	<select id="selectnotice" resultType="notice" parameterType="java.util.HashMap">
+		select RM,NTCNO,NTITLE,WRITER,NCONTENTS,NREGDATE
+		FROM(
+		select ROWNUM RM,NTCNO,NTITLE,WRITER,NCONTENTS,NREGDATE
+		FROM(
+		SELECT NTCNO,NTITLE,WRITER,NCONTENTS,NREGDATE
+		FROM notice
+		<if test="query!=null and data!=null">
+			<where>	NTITLE LIKE '%'||#{searchValue}||'%'</where>
+		</if>
+		ORDER BY NTCNO DESC))
+		where RM BETWEEN ${start} AND ${end}
+	</select>
+	
+	<insert id="insertnotice" parameterType="notice">
+		INSERT INTO NOTICE VALUES(#{ntcno},#{ntitle},
+		#{writer},#{ncontents},SYSDATE)
+	</insert>
+	<select id="getRow" parameterType="java.util.HashMap" resultType="int">
+		select count(*) from notice
+		<choose>
+			<when test="searchValue!=null">
+				where NTITLE LIKE '%'||#{searchValue}||'%'
+			</when>
+		</choose>
+	</select>	
+	
+	<!-- 예약 -->
+		<insert id="insertTest" parameterType="fuel">
+		INSERT INTO FUEL(FUELNO,FUELNAME)
+		VALUES(#{fuelno},#{fuelname})
+	</insert>
+
+            
+	<select id="selectRentCar" resultType="model.SelectCarList">
+		SELECT RENTCAR.RCNO,RENTCAR.RCMODEL,RENTCAR.RCPRICE,RENTCAR.RCIMG,RENTCAR.RCSTATE,OFFICE.OFCNAME,NAVIGATION.NAVINAME,FUEL.FUELNAME,SEGMENT.SGMTNAME,MAKER.MNAME
+		FROM RENTCAR, OFFICE, NAVIGATION, SEGMENT, FUEL, MAKER
+		WHERE RENTCAR.OFCNO = OFFICE.OFCNO AND SEGMENT.SGMTNO = RENTCAR.SGMTNO AND RENTCAR.MAKERNO = MAKER.MAKERNO AND FUEL.FUELNO = RENTCAR.FUELNO AND RENTCAR.NAVINO = NAVIGATION.NAVINO
+	</select>
+	
+	<select id="seachRentCar" resultType="carlist" parameterType="HashMap">
+		select * from(SELECT RENTCAR.RCNO,RENTCAR.RCMODEL,RENTCAR.RCPRICE,RENTCAR.RCIMG,RENTCAR.RCSTATE,OFFICE.OFCNAME,NAVIGATION.NAVINAME,FUEL.FUELNAME,SEGMENT.SGMTNAME,MAKER.MNAME
+		FROM RENTCAR, OFFICE, NAVIGATION, SEGMENT, FUEL, MAKER
+		WHERE RENTCAR.OFCNO = OFFICE.OFCNO AND SEGMENT.SGMTNO = RENTCAR.SGMTNO AND RENTCAR.MAKERNO = MAKER.MAKERNO AND FUEL.FUELNO = RENTCAR.FUELNO AND RENTCAR.NAVINO = NAVIGATION.NAVINO)
+        
+		<!-- <choose>
+			<when test="place!='모든지점'">			
+				OFCNAME=#{place}			
+			</when>
+			<when test="car!='모든차종'">			
+				SGMTNAME=#{car}			
+			</when>
+		</choose> -->
+	 <trim prefix="WHERE" prefixOverrides="AND " suffixOverrides="AND">
+	 	<if test="place!='모든지점' and place != null ">
+				OFCNAME=#{place}
+		</if>
+	   
+		<if test="car!='모든차종' and car !=null">
+		AND SGMTNAME=#{car}
+		</if>	
+		AND RCSTATE='예약가능'
+	</trim>		
+	</select>
+	
+	<update id="updateState" parameterType="java.lang.Integer">
+		UPDATE RENTCAR SET RCSTATE='승인대기'
+		WHERE RCNO=#{VALUE}
+	</update>
+	
+	
+</mapper>
