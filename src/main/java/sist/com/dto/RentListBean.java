@@ -8,8 +8,7 @@ public class RentListBean {
 	private int 	memberno;
 	private int 	psgnum;
 	private int 	ofcno;
-	private int 	rprice;
-	
+	private int 	rcprice;
 	public int getRentno() {
 		return rentno;
 	}
@@ -52,11 +51,13 @@ public class RentListBean {
 	public void setOfcno(int ofcno) {
 		this.ofcno = ofcno;
 	}
-	public int getRprice() {
-		return rprice;
+	public int getRcprice() {
+		return rcprice;
 	}
-	public void setRprice(int rprice) {
-		this.rprice = rprice;
+	public void setRcprice(int rcprice) {
+		this.rcprice = rcprice;
 	}
 
+	
+	
 }

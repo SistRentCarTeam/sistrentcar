@@ -29,11 +29,21 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		RCSTATE='승인대기'
 		WHERE RCNO=#{VALUE}
 	</update>
+
+	<insert id="insertRentList" parameterType="sist.com.dto.RentListBean">
+		INSERT INTO RENTLIST(rentno,rentdate,returndate,carno,psgnum,ofcno,rcprice)
+		VALUES(RENTLIST_SEQ_NO.NEXTVAL,#{rentdate},#{returndate},#{carno},#{psgnum},#{ofcno},#{rcprice})
+		<!-- memberno 추가할것-->
+	</insert>
+	<select id="findOfcno" parameterType="int" resultType="int">
+		SELECT OFCNO FROM RENTCAR
+		WHERE rcno=#{VALUE}
+	</select>
+	<select id="findRcprice" parameterType="int" resultType="int">
+		SELECT rcprice FROM RENTCAR
+		WHERE rcno=#{VALUE}
+	</select>
 	
-	<!-- <insert id="insertRentList" parameterType="sist.com.dto.RentListBean">
-		INSERT INTO RENTLIST
-		VALUES(RENTLIST_SEQ_NO.NEXTVAL,#{rentdate},#{returndate},#{carno},#{memberno},#{psgnum},#{ofcno},#{rprice})
-	</insert> ttt -->
 </mapper>
 
 

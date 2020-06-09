@@ -29,6 +29,12 @@ public class BasicDao  extends SqlSessionDaoSupport{
 	public void insertRentList(RentListBean bean) {
 		this.getSqlSession().insert("insertRentList", bean);
 	}
+	public int findOfcno(int no) {
+		return this.getSqlSession().selectOne("findOfcno", no);
+	}
+	public int findRcprice(int no) {
+		return this.getSqlSession().selectOne("findRcprice", no);
+	}
 
 }
 
