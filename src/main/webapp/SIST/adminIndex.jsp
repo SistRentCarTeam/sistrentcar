@@ -107,16 +107,43 @@ $(function(){
           <div class="row row-50 justify-content-sm-center text-left">
             <div class="col-sm-10 col-md-6 col-xl-3">
               <article class="box-minimal box-minimal-border">
-                <div class="box-minimal-icon novi-icon mdi mdi-airplane"></div>
-                <p class="big box-minimal-title">Air Tickets</p>
+                <table>
+               		<thead>
+	                    <tr>
+	                        <th>전체회원수</th>
+	                        <th>오늘가입회원</th>
+	                    </tr>
+                    </thead>
+                    <tbody>
+	                    <tr>
+	                        <td>20명</td>
+	                        <td>0명</td>
+	                    </tr>
+                	</tbody>
+                </table>
                 <hr>
-                <div class="box-minimal-text text-spacing-sm">At our travel agency, you can book air tickets to any world destination. We also provide online ticket booking via our website in just a couple of steps.</div>
+<!--                 <table>
+               		<thead>
+	                    <tr>
+	                        <th>탈퇴회원수</th>
+	                        <th>오늘탈퇴회원</th>
+	                    </tr>
+                    </thead>
+                    <tbody>
+	                    <tr>
+	                        <td>1명</td>
+	                        <td>0명</td>
+	                    </tr>
+                	</tbody>
+                </table> -->
+
               </article>
             </div>
             <div class="col-sm-10 col-md-6 col-xl-3">
               <article class="box-minimal box-minimal-border">
                 <div class="box-minimal-icon novi-icon mdi mdi-map"></div>
-                <p class="big box-minimal-title">Voyages & Cruises</p>
+                <p class="big box-minimal-title">누적 판매액</p>
+                <p class="big box-minimal-title">0,000,000원</p>
                 <hr>
                 <div class="box-minimal-text text-spacing-sm">Besides regular tours and excursions, we also offer a variety of cruises & sea voyages for different customers looking for awesome experiences.</div>
               </article>
